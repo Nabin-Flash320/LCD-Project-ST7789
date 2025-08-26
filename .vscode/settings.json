@@ -1,0 +1,37 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPath": "/home/ndj320/esp/v5.3/esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32-wrover-kit-3.3v.cfg"
+    ],
+    "idf.port": "/dev/ttyUSB0",
+    "idf.toolsPath": "/home/ndj320/.espressif",
+    "idf.flashType": "UART",
+    "files.associations": {
+        "*.sqlbook": "sql",
+        "*.ndjson": "jsonl",
+        "*.dbclient-js": "javascript",
+        "touch_sensor.h": "c",
+        "touch_xpt2046.h": "c",
+        "esp_heap_caps.h": "c",
+        "esp_lcd_types.h": "c",
+        "sys.h": "c",
+        "err.h": "c",
+        "esp_wifi.h": "c",
+        "esp_netif.h": "c",
+        "lvgl.h": "c",
+        "nvs_flash.h": "c",
+        "esp_log.h": "c",
+        "*.tcc": "c",
+        "optional": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "regex": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "variant": "c"
+    }
+}
