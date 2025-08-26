@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/ndj320/esp/v5.3/esp-idf/components/**",
+                "${workspaceFolder}/**"
+            ]
+        }
+    ],
+    "version": 4
+}
