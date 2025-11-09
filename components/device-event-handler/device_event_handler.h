@@ -14,13 +14,13 @@ enum
 
 struct s_event_data
 {
-    void *data;
+    void* data;
     size_t data_len;
 };
 
 ESP_EVENT_DECLARE_BASE(DEVICE_EVENT);
 
 int device_event_initialize(esp_event_handler_t handler);
-int device_event_post(int32_t event_id, void *args, size_t data_size);
+int device_event_post(int32_t event_id, void* args, size_t data_size);
 
 #endif // __DEVICE_EVENT_HANDLER_H__

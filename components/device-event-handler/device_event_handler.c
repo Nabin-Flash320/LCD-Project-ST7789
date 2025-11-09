@@ -9,7 +9,7 @@ ESP_EVENT_DEFINE_BASE(DEVICE_EVENT);
 
 int device_event_initialize(esp_event_handler_t handler)
 {
-    if(!handler)
+    if (!handler)
     {
         return -1;
     }
@@ -27,9 +27,9 @@ int device_event_initialize(esp_event_handler_t handler)
     return 0;
 }
 
-int device_event_post(int32_t event_id, void *args, size_t data_size)
+int device_event_post(int32_t event_id, void* args, size_t data_size)
 {
-    if(!loop_handle)
+    if (!loop_handle)
     {
         return -1;
     }
@@ -39,7 +39,7 @@ int device_event_post(int32_t event_id, void *args, size_t data_size)
         .data_len = data_size,
     };
 
-    ESP_ERROR_CHECK(esp_event_post_to(loop_handle, DEVICE_EVENT, event_id, &data, data_size, 2000 / portTICK_PERIOD_MS));
+    ESP_ERROR_CHECK(
+        esp_event_post_to(loop_handle, DEVICE_EVENT, event_id, &data, data_size, 2000 / portTICK_PERIOD_MS));
     return 0;
 }
-
