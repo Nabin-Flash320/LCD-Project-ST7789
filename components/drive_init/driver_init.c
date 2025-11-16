@@ -174,7 +174,6 @@ void touch_init()
         .y_max = LCD_V_RES,
         .rst_gpio_num = -1,
         .int_gpio_num = TOUCH_INT_PIN,
-        // .interrupt_callback = touch_interrupt_cb,
         .flags =
             {
                 .swap_xy = 0,
@@ -182,7 +181,6 @@ void touch_init()
                 .mirror_y = 0,
             },
     };
-    void IRAM_ATTR touch_interrupt_cb(esp_lcd_touch_t * touch_panel);
     esp_lcd_panel_io_spi_config_t tp_io_config = ESP_LCD_TOUCH_IO_SPI_XPT2046_CONFIG(TOUCH_CS_PIN);
     esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t) TOUCH_HOST, &tp_io_config, &touch_io_handle);
 
