@@ -154,7 +154,7 @@ void lvgl_task(void* pvParameter)
     }
 }
 
-void touch_driver_init(void)
+void touch_init()
 {
     spi_bus_config_t touch_xpt2056_buscfg = {
         .sclk_io_num = TOUCH_SCLK_PIN,
@@ -165,10 +165,6 @@ void touch_driver_init(void)
         .max_transfer_sz = 10,
     };
     ESP_ERROR_CHECK(spi_bus_initialize(TOUCH_HOST, &touch_xpt2056_buscfg, SPI_DMA_CH_AUTO));
-}
-
-void touch_init()
-{
     esp_lcd_touch_config_t tp_cfg = {
         .x_max = LCD_H_RES,
         .y_max = LCD_V_RES,

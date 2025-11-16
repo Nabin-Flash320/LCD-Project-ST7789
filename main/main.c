@@ -1,4 +1,3 @@
-#include "freertos/projdefs.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <lvgl.h>
@@ -17,9 +16,8 @@ static void nvs_initialize();
 
 void app_main(void)
 {
-    lcd_driver_init();
+    lcd_init();
     lvgl_init();
-    touch_driver_init();
     touch_init();
 
     nvs_initialize();
