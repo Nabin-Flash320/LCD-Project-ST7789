@@ -54,7 +54,7 @@ static void touch_input_init();
 static void lv_tick_task(void* arg);
 static void flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* px_map);
 
-void lcd_driver_init(void)
+void lcd_init(void)
 {
     ESP_LOGI(TAG, "Initializing LCD");
 
