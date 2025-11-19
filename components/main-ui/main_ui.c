@@ -74,7 +74,8 @@ static int main_ui_initialize_utility_bar(lv_obj_t *parent)
     lv_obj_set_layout(object_utility_bar, LV_LAYOUT_FLEX);
     lv_obj_set_flex_flow(object_utility_bar, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(object_utility_bar, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER);
-    lv_obj_set_size(object_utility_bar, LCD_H_RES, 34);
+
+    lv_obj_set_size(object_utility_bar, LV_HOR_RES, 34);
 
     MALLOC_STYLE(style_utility_bar);
     LV_ASSERT(style_utility_bar);
@@ -206,7 +207,7 @@ static int main_ui_scrolling_label(lv_obj_t *parent)
     object_scrolling_label = lv_label_create(parent);
     LV_ASSERT(object_scrolling_label);
     lv_label_set_long_mode(object_scrolling_label, LV_LABEL_LONG_SCROLL_CIRCULAR);
-    lv_obj_set_width(object_scrolling_label, 245);
+    lv_obj_set_width(object_scrolling_label, 165);
     lv_obj_set_height(object_scrolling_label, 24);
     lv_obj_align(object_scrolling_label, LV_ALIGN_CENTER, 0, 40);
     lv_obj_set_style_radius(object_scrolling_label, 5, 0);

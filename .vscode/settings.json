@@ -8,6 +8,7 @@
     "idf.toolsPath": "/home/ndj320/.espressif",
     "idf.flashType": "UART",
     "files.associations": {
+        "*.hex": "powershell",
         "*.sqlbook": "sql",
         "*.ndjson": "jsonl",
         "*.dbclient-js": "javascript",
@@ -32,6 +33,12 @@
         "tuple": "c",
         "type_traits": "c",
         "utility": "c",
-        "variant": "c"
-    }
+        "variant": "c",
+        "esp_lcd_touch.h": "c"
+    },
+    "idf.espIdfPathWin": "D:/esp-workspace/v5.4/",
+    "idf.toolsPathWin": "D:\\esp-workspace\\Espressif",
+    "idf.pythonInstallPath": "D:\\esp-workspace\\Espressif\\tools\\idf-python\\3.11.2\\python.exe",
+    "idf.enableCCache": true,
+    "idf.portWin": "COM5"
 }

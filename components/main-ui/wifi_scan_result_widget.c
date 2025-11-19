@@ -19,8 +19,8 @@ void main_ui_initialize_wifi_scan_result_widget(lv_obj_t *parent)
 
     object_wifi_scan_result = lv_table_create(parent);
     LV_ASSERT(object_wifi_scan_result);
-    lv_obj_set_size(object_wifi_scan_result, LCD_H_RES, LCD_V_RES);
-    lv_table_set_column_width(object_wifi_scan_result, 0, LCD_H_RES-5);
+    lv_obj_set_size(object_wifi_scan_result, LV_HOR_RES, LV_VER_RES - 40);
+    lv_table_set_column_width(object_wifi_scan_result, 0, LV_HOR_RES - 5);
 
     MALLOC_STYLE(style_wifi_scan_result);
     LV_ASSERT(style_wifi_scan_result);

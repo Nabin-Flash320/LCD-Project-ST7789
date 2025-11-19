@@ -16,21 +16,11 @@
 #include "main_ui.h"
 #include "wifi_handler.h"
 
-static void device_event_handler_callback(void* event_handler_arg, esp_event_base_t event_base, int32_t event_id,
-                                          void* event_data);
+static void device_event_handler_callback(void *event_handler_arg, esp_event_base_t event_base, int32_t event_id,
+                                          void *event_data);
 
-static void app_main_UI_starter(void* params)
+static void app_main_UI_starter(void *params)
 {
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    ESP_LOGE(__FILE__, "Initializing NVS flash");
-    esp_err_t error = nvs_flash_init();
-    if ((ESP_ERR_NVS_NO_FREE_PAGES == error) || (ESP_ERR_NVS_NEW_VERSION_FOUND == error))
-    {
-        ESP_ERROR_CHECK(nvs_flash_erase());
-        error = nvs_flash_init();
-    }
-
     main_ui_initialize();
 
     while (1)
@@ -42,29 +32,29 @@ static void app_main_UI_starter(void* params)
     vTaskDelete(NULL);
 }
 
-static void device_event_handler_callback(void* event_handler_arg, esp_event_base_t event_base, int32_t event_id,
-                                          void* event_data)
+static void device_event_handler_callback(void *event_handler_arg, esp_event_base_t event_base, int32_t event_id,
+                                          void *event_data)
 {
     if (DEVICE_EVENT == event_base)
     {
-        struct s_event_data* data = (struct s_event_data*) event_data;
+        struct s_event_data *data = (struct s_event_data *)event_data;
         {
             switch (event_id)
             {
             case DEVICE_EVENT_WIFI_CONNECTED_EVENT:
             {
-                main_ui_set_wifi_status(*(int*) data->data == 0 ? true : false);
+                main_ui_set_wifi_status(*(int *)data->data == 0 ? true : false);
                 xTaskCreate(wifi_sta_scan_aps, "wifi-scanner", 4096, NULL, 2, NULL);
                 break;
             }
             case DEVICE_EVENT_SET_MESSAGE_EVENT:
             {
-                main_ui_set_message((char*) data->data);
+                main_ui_set_message((char *)data->data);
                 break;
             }
             case DEVICE_EVENT_WIFI_AP_DETAILS_EVENT:
             {
-                main_ui_set_wifi_scan_result((char*) data->data, data->data_len);
+                main_ui_set_wifi_scan_result((char *)data->data, data->data_len);
                 break;
             }
             default:
@@ -79,6 +69,17 @@ static void device_event_handler_callback(void* event_handler_arg, esp_event_bas
 
 void app_main()
 {
+    ESP_LOGE(__FILE__, "Initializing NVS flash");
+    esp_err_t error = nvs_flash_init();
+    if ((ESP_ERR_NVS_NO_FREE_PAGES == error) || (ESP_ERR_NVS_NEW_VERSION_FOUND == error))
+    {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        error = nvs_flash_init();
+    }
+
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
     lcd_driver_init();
     lvgl_init();
     touch_driver_init();

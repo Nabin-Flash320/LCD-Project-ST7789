@@ -22,8 +22,8 @@
 static EventGroupHandle_t s_wifi_event_group;
 static esp_netif_t *sta_netif = NULL;
 
-static char *wifi_sta_ssid = "NDS-TPL-2.4G";
-static char *wifi_sta_pass = "NDS_0ffice";
+static char *wifi_sta_ssid = "NABIN_DHFiberNet";
+static char *wifi_sta_pass = "Sainikian@112233";
 static int s_retry_num = 0;
 static bool wifi_connected = false;
 
