@@ -20,8 +20,10 @@ void main_ui_set_wifi_status(bool connected);
 lv_obj_t *main_ui_get_main_menu_object();
 
 void event_handler_wifi_setting(lv_event_t *event);
+void event_handler_wifi_list_button_click(lv_event_t *event);
 void event_handler_bluetooth_setting(lv_event_t *event);
 
 void wifi_ui_start();
+void wifi_ui_connect_wifi(const char *SSID);
 
 #endif // __MAIN_UI_H__

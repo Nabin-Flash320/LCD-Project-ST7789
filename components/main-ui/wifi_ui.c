@@ -33,8 +33,19 @@ void wifi_ui_start()
     wifi_handler_start_scan(wifi_scan_result_handler);
 }
 
+void wifi_ui_connect_wifi(const char *SSID)
+{
+    wifi_list_timoeut_counter = 60;
+
+    assert(SSID);
+    
+    ESP_LOGE(TAG, "WiFi button clicked(%s)", SSID);
+}
+
 static void wifi_scan_result_handler(uint16_t scan_number, wifi_ap_record_t *record)
 {
+    wifi_list_timoeut_counter = 60;
+
     lv_lock();
 
     lv_obj_delete(object_message_box);
@@ -48,6 +59,7 @@ static void wifi_scan_result_handler(uint16_t scan_number, wifi_ap_record_t *rec
         ESP_LOGE(TAG, "SSID: %s(rssi: %d)(authmode: %d)", record[i].ssid, record[i].rssi, record[i].authmode);
 
         button = lv_list_add_button(object_wifi_scan_list, NULL, (const char *)record[i].ssid);
+        lv_obj_add_event_cb(button, event_handler_wifi_list_button_click, LV_EVENT_CLICKED, object_wifi_scan_list);
     }
 
     lv_unlock();
