@@ -1,10 +1,11 @@
 idf_component_register(
   SRCS
-  "wifi_scan_result_widget.c"
   "main_ui.c"
+  "main_event_handlers.c"
+  "wifi_ui.c"
   INCLUDE_DIRS
   .
   REQUIRES
   lvgl
   driver_init
-  esp_wifi)
+  wifi_handler)

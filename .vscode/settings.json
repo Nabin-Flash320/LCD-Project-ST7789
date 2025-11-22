@@ -34,11 +34,29 @@
         "type_traits": "c",
         "utility": "c",
         "variant": "c",
-        "esp_lcd_touch.h": "c"
+        "esp_lcd_touch.h": "c",
+        "main_ui.h": "c",
+        "esp_event_loop.h": "c",
+        "freertos.h": "c",
+        "task.h": "c",
+        "esp_flash.h": "c",
+        "esp_chip_info.h": "c",
+        "driver_init.h": "c",
+        "wifi_handler.h": "c",
+        "esp_wifi_types.h": "c",
+        "lv_tree.h": "c",
+        "lv_os.h": "c",
+        "lv_os_private.h": "c",
+        "lv_global.h": "c",
+        "lv_conf_kconfig.h": "c",
+        "lv_freertos.h": "c",
+        "lv_os_none.h": "c",
+        "lv_conf_internal.h": "c"
     },
     "idf.espIdfPathWin": "D:/esp-workspace/v5.4/",
     "idf.toolsPathWin": "D:\\esp-workspace\\Espressif",
     "idf.pythonInstallPath": "D:\\esp-workspace\\Espressif\\tools\\idf-python\\3.11.2\\python.exe",
     "idf.enableCCache": true,
-    "idf.portWin": "COM5"
+    "idf.portWin": "COM5",
+    "idf.monitorNoReset": true
 }

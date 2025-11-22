@@ -2,8 +2,11 @@
 #ifndef __MAIN_UI_H__
 #define __MAIN_UI_H__
 
+#include "lvgl.h"
+
 #define DEFINE_OBJECT(postfix) static lv_obj_t *object_##postfix = NULL
 #define DEFINE_STYLE(postfix) static lv_style_t *style_##postfix = NULL
+
 #define MALLOC_STYLE(var) var = lv_malloc(sizeof(lv_style_t))
 #define COLOR_MAKE(r, g, b) lv_color_make(r, g, b)
 
@@ -14,7 +17,11 @@ void main_ui_initialize();
 void main_ui_set_message(const char *message);
 void main_ui_set_wifi_status(bool connected);
 
-void main_ui_initialize_wifi_scan_result_widget(lv_obj_t *parent);
-void main_ui_set_wifi_scan_result(void *wifi_scan_result, size_t len);
+lv_obj_t *main_ui_get_main_menu_object();
+
+void event_handler_wifi_setting(lv_event_t *event);
+void event_handler_bluetooth_setting(lv_event_t *event);
+
+void wifi_ui_start();
 
 #endif // __MAIN_UI_H__

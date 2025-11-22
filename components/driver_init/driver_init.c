@@ -174,7 +174,6 @@ void touch_init()
         .y_max = LCD_V_RES,
         .rst_gpio_num = -1,
         .int_gpio_num = TOUCH_INT_PIN,
-        // .interrupt_callback = touch_interrupt_cb,
         .flags =
             {
                 .swap_xy = 0,
@@ -182,12 +181,14 @@ void touch_init()
                 .mirror_y = 0,
             },
     };
-    void IRAM_ATTR touch_interrupt_cb(esp_lcd_touch_t * touch_panel);
+
+    
     esp_lcd_panel_io_spi_config_t tp_io_config = ESP_LCD_TOUCH_IO_SPI_XPT2046_CONFIG(TOUCH_CS_PIN);
     esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t) TOUCH_HOST, &tp_io_config, &touch_io_handle);
 
     ESP_ERROR_CHECK(esp_lcd_touch_new_spi_xpt2046(touch_io_handle, &tp_cfg, &touch_handle));
 
+    touch_pad = touch_handle;  // Properly assign touch_handle to touch_pad
     touch_input_init();
 
     ESP_LOGI(TAG, "Initialize touch controller XPT2046");
@@ -216,7 +217,7 @@ static void lvgl_touch_cb(lv_indev_t* indev, lv_indev_data_t* data)
         data->point.x = LCD_H_RES - 1 - touchpad_x[0];
         data->point.y = touchpad_y[0];
         data->state = LV_INDEV_STATE_PRESSED;
-        esp_rom_printf("%d, %d\n", data->point.x, data->point.y);
+        // esp_rom_printf("%d, %d\n", data->point.x, data->point.y);
     }
     else
     {
@@ -229,9 +230,9 @@ static void touch_input_init()
     static lv_indev_t* indev;
     indev = lv_indev_create(); // Input device driver (Touch)
     lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+    assert(display);
     lv_indev_set_display(indev, display);
-    lv_indev_set_user_data(indev, touch_handle);
-    touch_pad = lv_indev_get_user_data(indev);
+    lv_indev_set_user_data(indev, touch_pad);
     lv_indev_set_read_cb(indev, lvgl_touch_cb);
 }
 

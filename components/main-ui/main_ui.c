@@ -4,7 +4,7 @@
 #include "main_ui.h"
 #include "driver_init.h"
 
-DEFINE_OBJECT(parent);
+DEFINE_OBJECT(main_screen);
 DEFINE_OBJECT(utility_bar);
 DEFINE_OBJECT(wifi_setting);
 DEFINE_OBJECT(wifi_setting_label);
@@ -12,8 +12,9 @@ DEFINE_OBJECT(bluetooth_setting);
 DEFINE_OBJECT(bluetooth_setting_label);
 DEFINE_OBJECT(scrolling_label);
 DEFINE_OBJECT(main_display);
+DEFINE_OBJECT(main_menu_display);
 
-DEFINE_STYLE(parent);
+DEFINE_STYLE(main_screen);
 DEFINE_STYLE(utility_bar);
 DEFINE_STYLE(wifi_setting);
 DEFINE_STYLE(wifi_setting_label);
@@ -21,29 +22,30 @@ DEFINE_STYLE(bluetooth_setting);
 DEFINE_STYLE(bluetooth_setting_label);
 DEFINE_STYLE(scrolling_label);
 DEFINE_STYLE(main_display);
+DEFINE_STYLE(main_menu_display);
 
 static int main_ui_initialize_utility_bar(lv_obj_t *parent);
-static int main_ui_initialize_main_display(lv_obj_t *parent);
 static int main_ui_initialize_wifi_setting(lv_obj_t *parent);
 static int main_ui_initialize_bluetooth_setting(lv_obj_t *parent);
 static int main_ui_scrolling_label(lv_obj_t *parent);
+static void main_ui_main_menu_area(lv_obj_t *parent);
 
 void main_ui_initialize()
 {
-    object_parent = lv_scr_act();
-    LV_ASSERT(object_parent);
-    lv_obj_set_layout(object_parent, LV_LAYOUT_FLEX);
-    lv_obj_set_flex_flow(object_parent, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_row(object_parent, 5, LV_PART_MAIN);
+    object_main_screen = lv_scr_act();
+    LV_ASSERT(object_main_screen);
+    lv_obj_set_layout(object_main_screen, LV_LAYOUT_FLEX);
+    lv_obj_set_flex_flow(object_main_screen, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_row(object_main_screen, 5, LV_PART_MAIN);
 
-    main_ui_initialize_utility_bar(object_parent);
-    main_ui_initialize_wifi_scan_result_widget(object_parent);
+    main_ui_initialize_utility_bar(object_main_screen);
+    main_ui_main_menu_area(object_main_screen);
 
-    MALLOC_STYLE(style_parent);
-    LV_ASSERT(style_parent);
-    lv_style_init(style_parent);
-    lv_style_set_bg_color(style_parent, COLOR_LIGHT_GRAY());
-    lv_obj_add_style(object_parent, style_parent, LV_PART_MAIN);
+    MALLOC_STYLE(style_main_screen);
+    LV_ASSERT(style_main_screen);
+    lv_style_init(style_main_screen);
+    lv_style_set_bg_color(style_main_screen, COLOR_LIGHT_GRAY());
+    lv_obj_add_style(object_main_screen, style_main_screen, LV_PART_MAIN);
 }
 
 void main_ui_set_message(const char *message)
@@ -60,6 +62,11 @@ void main_ui_set_wifi_status(bool connected)
     }
 
     lv_obj_refresh_style(object_wifi_setting, LV_PART_MAIN, LV_STYLE_PROP_ANY);
+}
+
+lv_obj_t *main_ui_get_main_menu_object()
+{
+    return object_main_menu_display;
 }
 
 static int main_ui_initialize_utility_bar(lv_obj_t *parent)
@@ -93,30 +100,6 @@ static int main_ui_initialize_utility_bar(lv_obj_t *parent)
     return 0;
 }
 
-static int main_ui_initialize_main_display(lv_obj_t *parent)
-{
-    if (NULL == parent)
-    {
-        return -1;
-    }
-
-    object_main_display = lv_obj_create(parent);
-    LV_ASSERT(object_main_display);
-    lv_obj_set_size(object_main_display, LCD_H_RES, LCD_V_RES);
-
-    MALLOC_STYLE(style_main_display);
-    LV_ASSERT(style_main_display);
-    lv_style_init(style_main_display);
-    lv_style_set_border_width(style_main_display, 2);
-    lv_style_set_pad_all(style_main_display, 0);
-    lv_style_set_pad_left(style_main_display, 2);
-    lv_style_set_pad_right(style_main_display, 2);
-    lv_style_set_border_color(style_main_display, COLOR_SLATE_GRAY());
-
-    lv_obj_add_style(object_main_display, style_main_display, LV_PART_MAIN);
-    return 0;
-}
-
 static int main_ui_initialize_wifi_setting(lv_obj_t *parent)
 {
     if (NULL == parent)
@@ -129,6 +112,7 @@ static int main_ui_initialize_wifi_setting(lv_obj_t *parent)
     object_wifi_setting_label = lv_label_create(object_wifi_setting);
     LV_ASSERT(object_wifi_setting_label);
     lv_label_set_text(object_wifi_setting_label, LV_SYMBOL_WIFI);
+    lv_obj_add_event_cb(object_wifi_setting, event_handler_wifi_setting, LV_EVENT_CLICKED, NULL);
 
     MALLOC_STYLE(style_wifi_setting_label);
     LV_ASSERT(style_wifi_setting_label);
@@ -169,6 +153,7 @@ static int main_ui_initialize_bluetooth_setting(lv_obj_t *parent)
     object_bluetooth_setting_label = lv_label_create(object_bluetooth_setting);
     LV_ASSERT(object_bluetooth_setting_label);
     lv_label_set_text(object_bluetooth_setting_label, LV_SYMBOL_BLUETOOTH);
+    lv_obj_add_event_cb(object_bluetooth_setting, event_handler_bluetooth_setting, LV_EVENT_CLICKED, NULL);
 
     MALLOC_STYLE(style_bluetooth_setting_label);
     LV_ASSERT(style_bluetooth_setting_label);
@@ -222,4 +207,25 @@ static int main_ui_scrolling_label(lv_obj_t *parent)
     lv_style_set_pad_top(style_scrolling_label, 2);
     lv_obj_add_style(object_scrolling_label, style_scrolling_label, LV_PART_MAIN);
     return 0;
+}
+
+static void main_ui_main_menu_area(lv_obj_t *parent)
+{
+    if (NULL == parent)
+    {
+        return;
+    }
+
+    object_main_menu_display = lv_obj_create(parent);
+    LV_ASSERT(object_main_menu_display);
+    lv_obj_set_size(object_main_menu_display, LV_HOR_RES, LV_VER_RES - 40);
+
+    MALLOC_STYLE(style_main_menu_display);
+    LV_ASSERT(style_main_menu_display);
+    lv_style_init(style_main_menu_display);
+    lv_style_set_border_width(style_main_menu_display, 1);
+    lv_style_set_border_color(style_main_menu_display, COLOR_SLATE_GRAY());
+    // lv_style_set_pad_all(style_main_menu_display, 0);
+
+    lv_obj_add_style(object_main_menu_display, style_main_menu_display, LV_PART_MAIN);
 }

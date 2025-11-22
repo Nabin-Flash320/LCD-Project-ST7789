@@ -1,7 +1,7 @@
 idf_component_register(
   SRCS
-  "wifi_handler.c"
   "hello_world_main.c"
   INCLUDE_DIRS
   ""
+  REQUIRES wifi_handler nvs_flash driver_init main-ui
   )
