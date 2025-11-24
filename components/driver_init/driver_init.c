@@ -1,4 +1,3 @@
-#include "driver_init.h"
 #include "display/lv_display.h"
 #include "driver/gpio.h"
 #include "driver/spi_common.h"
@@ -23,6 +22,8 @@
 #include "esp_lcd_touch_xpt2046.h"
 #include "indev/lv_indev.h"
 
+#include "driver_init.h"
+
 #define TAG "esp_lcd"
 
 #define LCD_HOST SPI2_HOST
@@ -41,7 +42,7 @@
 #define TOUCH_INT_PIN 36
 #define TOUCH_CS_PIN 33
 
-static lv_display_t* display;
+static lv_display_t *display;
 static esp_lcd_panel_io_handle_t lcd_io_handle;
 static esp_lcd_panel_io_handle_t touch_io_handle;
 static esp_lcd_panel_handle_t lcd_panel_handle;
@@ -49,10 +50,10 @@ static esp_lcd_touch_handle_t touch_handle;
 static esp_lcd_touch_handle_t touch_pad;
 
 static void setup_timer();
-static void lvgl_touch_cb(lv_indev_t* indev, lv_indev_data_t* data);
+static void lvgl_touch_cb(lv_indev_t *indev, lv_indev_data_t *data);
 static void touch_input_init();
-static void lv_tick_task(void* arg);
-static void flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* px_map);
+static void lv_tick_task(void *arg);
+static void flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map);
 
 void lcd_driver_init(void)
 {
@@ -89,7 +90,7 @@ void lcd_driver_init(void)
     ESP_ERROR_CHECK(spi_bus_initialize(LCD_HOST, &lcd_spi_config, SPI_DMA_CH_AUTO));
 
     // Configure LCD IO
-    ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t) LCD_HOST, &io_config, &lcd_io_handle));
+    ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)LCD_HOST, &io_config, &lcd_io_handle));
 
     // Configure LCD panel
     ESP_ERROR_CHECK(esp_lcd_new_panel_st7789(lcd_io_handle, &panel_config, &lcd_panel_handle));
@@ -123,9 +124,9 @@ void lvgl_init(void)
     display = lv_display_create(LCD_H_RES, LCD_V_RES);
 
     size_t draw_buffer_sz = LCD_V_RES * 20 * sizeof(lv_color16_t);
-    void* buf1 = spi_bus_dma_memory_alloc(LCD_HOST, draw_buffer_sz, 0);
+    void *buf1 = spi_bus_dma_memory_alloc(LCD_HOST, draw_buffer_sz, 0);
     assert(buf1);
-    void* buf2 = spi_bus_dma_memory_alloc(LCD_HOST, draw_buffer_sz, 0);
+    void *buf2 = spi_bus_dma_memory_alloc(LCD_HOST, draw_buffer_sz, 0);
     assert(buf2);
 
     // initialize LVGL draw buffers
@@ -143,7 +144,7 @@ void lvgl_init(void)
     lv_refr_now(display);
 }
 
-void lvgl_task(void* pvParameter)
+void lvgl_task(void *pvParameter)
 {
     ESP_LOGI(TAG, "LVGL task started");
 
@@ -167,7 +168,7 @@ void touch_driver_init(void)
     ESP_ERROR_CHECK(spi_bus_initialize(TOUCH_HOST, &touch_xpt2056_buscfg, SPI_DMA_CH_AUTO));
 }
 
-void touch_init()
+void driver_touch_init()
 {
     esp_lcd_touch_config_t tp_cfg = {
         .x_max = LCD_H_RES,
@@ -182,13 +183,12 @@ void touch_init()
             },
     };
 
-    
     esp_lcd_panel_io_spi_config_t tp_io_config = ESP_LCD_TOUCH_IO_SPI_XPT2046_CONFIG(TOUCH_CS_PIN);
-    esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t) TOUCH_HOST, &tp_io_config, &touch_io_handle);
+    esp_lcd_new_panel_io_spi((esp_lcd_spi_bus_handle_t)TOUCH_HOST, &tp_io_config, &touch_io_handle);
 
     ESP_ERROR_CHECK(esp_lcd_touch_new_spi_xpt2046(touch_io_handle, &tp_cfg, &touch_handle));
 
-    touch_pad = touch_handle;  // Properly assign touch_handle to touch_pad
+    touch_pad = touch_handle; // Properly assign touch_handle to touch_pad
     touch_input_init();
 
     ESP_LOGI(TAG, "Initialize touch controller XPT2046");
@@ -202,7 +202,7 @@ static void setup_timer()
     esp_timer_start_periodic(periodic_timer, 1000); // 1000 us = 1 ms
 }
 
-static void lvgl_touch_cb(lv_indev_t* indev, lv_indev_data_t* data)
+static void lvgl_touch_cb(lv_indev_t *indev, lv_indev_data_t *data)
 {
     uint16_t touchpad_x[1] = {0};
     uint16_t touchpad_y[1] = {0};
@@ -227,7 +227,7 @@ static void lvgl_touch_cb(lv_indev_t* indev, lv_indev_data_t* data)
 
 static void touch_input_init()
 {
-    static lv_indev_t* indev;
+    static lv_indev_t *indev;
     indev = lv_indev_create(); // Input device driver (Touch)
     lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
     assert(display);
@@ -236,7 +236,7 @@ static void touch_input_init()
     lv_indev_set_read_cb(indev, lvgl_touch_cb);
 }
 
-static void flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* px_map)
+static void flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
 {
     lcd_panel_handle = lv_display_get_user_data(disp);
 
@@ -252,7 +252,7 @@ static void flush_cb(lv_display_t* disp, const lv_area_t* area, uint8_t* px_map)
     lv_display_flush_ready(disp);
 }
 
-static void lv_tick_task(void* arg)
+static void lv_tick_task(void *arg)
 {
     lv_tick_inc(1); // increment LVGL tick by 1 ms
 }

@@ -46,6 +46,10 @@ void main_ui_initialize()
     lv_style_init(style_main_screen);
     lv_style_set_bg_color(style_main_screen, COLOR_LIGHT_GRAY());
     lv_obj_add_style(object_main_screen, style_main_screen, LV_PART_MAIN);
+
+    tile_ui_create_wifi_tile();
+    tile_ui_create_ble_tile();
+    tile_ui_create_other_tile();
 }
 
 void main_ui_set_message(const char *message)
@@ -112,7 +116,7 @@ static int main_ui_initialize_wifi_setting(lv_obj_t *parent)
     object_wifi_setting_label = lv_label_create(object_wifi_setting);
     LV_ASSERT(object_wifi_setting_label);
     lv_label_set_text(object_wifi_setting_label, LV_SYMBOL_WIFI);
-    lv_obj_add_event_cb(object_wifi_setting, event_handler_wifi_setting, LV_EVENT_CLICKED, NULL);
+    // lv_obj_add_event_cb(object_wifi_setting, event_handler_wifi_setting, LV_EVENT_CLICKED, NULL);
 
     MALLOC_STYLE(style_wifi_setting_label);
     LV_ASSERT(style_wifi_setting_label);
@@ -153,7 +157,7 @@ static int main_ui_initialize_bluetooth_setting(lv_obj_t *parent)
     object_bluetooth_setting_label = lv_label_create(object_bluetooth_setting);
     LV_ASSERT(object_bluetooth_setting_label);
     lv_label_set_text(object_bluetooth_setting_label, LV_SYMBOL_BLUETOOTH);
-    lv_obj_add_event_cb(object_bluetooth_setting, event_handler_bluetooth_setting, LV_EVENT_CLICKED, NULL);
+    // lv_obj_add_event_cb(object_bluetooth_setting, event_handler_bluetooth_setting, LV_EVENT_CLICKED, NULL);
 
     MALLOC_STYLE(style_bluetooth_setting_label);
     LV_ASSERT(style_bluetooth_setting_label);
@@ -209,6 +213,9 @@ static int main_ui_scrolling_label(lv_obj_t *parent)
     return 0;
 }
 
+static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
+static int32_t row_dsc[] = {50, 50, 50, 50, 50, 50, LV_GRID_TEMPLATE_LAST};
+
 static void main_ui_main_menu_area(lv_obj_t *parent)
 {
     if (NULL == parent)
@@ -219,13 +226,15 @@ static void main_ui_main_menu_area(lv_obj_t *parent)
     object_main_menu_display = lv_obj_create(parent);
     LV_ASSERT(object_main_menu_display);
     lv_obj_set_size(object_main_menu_display, LV_HOR_RES, LV_VER_RES - 40);
+    lv_obj_set_style_grid_row_dsc_array(object_main_menu_display, row_dsc, 0);
+    lv_obj_set_style_grid_column_dsc_array(object_main_menu_display, col_dsc, 0);
+    lv_obj_set_layout(object_main_menu_display, LV_LAYOUT_GRID);
 
     MALLOC_STYLE(style_main_menu_display);
     LV_ASSERT(style_main_menu_display);
     lv_style_init(style_main_menu_display);
     lv_style_set_border_width(style_main_menu_display, 1);
     lv_style_set_border_color(style_main_menu_display, COLOR_SLATE_GRAY());
-    // lv_style_set_pad_all(style_main_menu_display, 0);
 
     lv_obj_add_style(object_main_menu_display, style_main_menu_display, LV_PART_MAIN);
 }

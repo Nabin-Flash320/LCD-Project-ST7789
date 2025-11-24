@@ -4,6 +4,9 @@ idf_component_register(
   "main_event_handlers.c"
   "wifi_ui.c"
   "UI_commons.c"
+  "./tile_uis/wifi_tile.c"
+  "./tile_uis/ble_tile.c"
+  "./tile_uis/other_tile.c"
   INCLUDE_DIRS
   .
   REQUIRES

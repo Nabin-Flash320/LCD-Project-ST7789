@@ -23,7 +23,7 @@ static void app_main_UI_starter(void *params)
         lv_lock();
         lv_timer_handler();
         lv_unlock();
-        
+
         vTaskDelay(1);
     }
 
@@ -46,7 +46,7 @@ void app_main()
     lcd_driver_init();
     lvgl_init();
     touch_driver_init();
-    touch_init();
+    driver_touch_init();
     wifi_handler_init_wifi();
 
     xTaskCreate(app_main_UI_starter, "ui-starter", 4096 * 2, NULL, 3, NULL);

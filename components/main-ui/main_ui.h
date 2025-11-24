@@ -47,4 +47,9 @@ void wifi_ui_connect_wifi(const char *SSID);
 void common_ui_alphanumeric_keyboard_start();
 void common_ui_numeric_keyboard_start();
 
+// Tile uis
+void tile_ui_create_wifi_tile();
+void tile_ui_create_ble_tile();
+void tile_ui_create_other_tile();
+
 #endif // __MAIN_UI_H__

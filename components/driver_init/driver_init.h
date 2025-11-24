@@ -5,9 +5,9 @@
 #define LCD_V_RES 320
 
 void lvgl_init(void);
-void lvgl_task(void* pvParameter);
+void lvgl_task(void *pvParameter);
 void lcd_driver_init(void);
 void touch_driver_init(void);
-void touch_init();
+void driver_touch_init();
 
 #endif
