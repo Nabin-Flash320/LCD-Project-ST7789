@@ -3,6 +3,7 @@ idf_component_register(
   "main_ui.c"
   "main_event_handlers.c"
   "wifi_ui.c"
+  "UI_commons.c"
   INCLUDE_DIRS
   .
   REQUIRES

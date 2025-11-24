@@ -40,6 +40,7 @@ void wifi_ui_connect_wifi(const char *SSID)
     assert(SSID);
     
     ESP_LOGE(TAG, "WiFi button clicked(%s)", SSID);
+
 }
 
 static void wifi_scan_result_handler(uint16_t scan_number, wifi_ap_record_t *record)

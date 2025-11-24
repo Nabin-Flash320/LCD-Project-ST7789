@@ -30,6 +30,13 @@ void event_handler_wifi_list_button_click(lv_event_t *event)
     }
 }
 
+void event_handler_keyboard_events(lv_event_t *event)
+{
+    lv_event_code_t code = lv_event_get_code(event);
+    const char *code_name = lv_event_code_get_name(code);
+    ESP_LOGE(TAG, "Event code %s", code_name);
+}   
+
 void event_handler_bluetooth_setting(lv_event_t *event)
 {
     const char *code_name = lv_event_code_get_name(lv_event_get_code(event));

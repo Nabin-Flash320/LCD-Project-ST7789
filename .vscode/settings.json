@@ -51,7 +51,12 @@
         "lv_conf_kconfig.h": "c",
         "lv_freertos.h": "c",
         "lv_os_none.h": "c",
-        "lv_conf_internal.h": "c"
+        "lv_conf_internal.h": "c",
+        "lv_string.h": "c",
+        "lv_display.h": "c",
+        "lv_flex.h": "c",
+        "lv_obj_private.h": "c",
+        "lv_obj_class_private.h": "c"
     },
     "idf.espIdfPathWin": "D:/esp-workspace/v5.4/",
     "idf.toolsPathWin": "D:\\esp-workspace\\Espressif",
