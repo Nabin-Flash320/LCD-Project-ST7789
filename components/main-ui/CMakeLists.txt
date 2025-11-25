@@ -7,6 +7,7 @@ idf_component_register(
   "./tile_uis/wifi_tile.c"
   "./tile_uis/ble_tile.c"
   "./tile_uis/other_tile.c"
+  "./tile_uis/full_strength.c"
   INCLUDE_DIRS
   .
   REQUIRES
