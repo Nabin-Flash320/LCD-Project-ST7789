@@ -48,7 +48,7 @@ void main_ui_initialize()
     lv_obj_add_style(object_main_screen, style_main_screen, LV_PART_MAIN);
 
     tile_ui_create_wifi_tile();
-    tile_ui_create_ble_tile();
+    tile_ui_create_bluetooth_tile();
     tile_ui_create_other_tile();
 }
 

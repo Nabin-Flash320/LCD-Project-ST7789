@@ -30,7 +30,7 @@ static void create_wifi_open_wifi_config_cell();
 static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 static int32_t row_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 
-LV_IMAGE_DECLARE(full_strength);
+LV_IMAGE_DECLARE(wifi_fill_strength);
 
 void tile_ui_create_wifi_tile()
 {
@@ -65,16 +65,17 @@ static void create_wifi_icon_cell()
 {
     LV_ASSERT(object_wifi_tile);
 
-    // object_wifi_icon = lv_obj_create(object_wifi_tile);
     object_wifi_icon = lv_image_create(object_wifi_tile);
     LV_ASSERT(object_wifi_icon);
-    lv_image_set_src(object_wifi_icon, &full_strength);
+    lv_image_set_src(object_wifi_icon, &wifi_fill_strength);
+    lv_obj_set_style_image_recolor(object_wifi_icon, lv_color_hex(0x00AADD), LV_STATE_DEFAULT);
     lv_obj_set_grid_cell(object_wifi_icon, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 0, 2);
 
     MALLOC_STYLE(style_wifi_icon);
     LV_ASSERT(style_wifi_icon);
     lv_style_init(style_wifi_icon);
     lv_style_set_border_width(style_wifi_icon, 1);
+    lv_style_set_radius(style_wifi_icon, 8);
     lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0, 0, 0));
 
     lv_obj_add_style(object_wifi_icon, style_wifi_icon, LV_PART_MAIN);

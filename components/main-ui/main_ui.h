@@ -49,7 +49,7 @@ void common_ui_numeric_keyboard_start();
 
 // Tile uis
 void tile_ui_create_wifi_tile();
-void tile_ui_create_ble_tile();
+void tile_ui_create_bluetooth_tile();
 void tile_ui_create_other_tile();
 
 #endif // __MAIN_UI_H__
