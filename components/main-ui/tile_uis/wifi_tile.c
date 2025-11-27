@@ -27,10 +27,19 @@ static void create_wifi_enable_button_cell();
 static void create_wifi_ssid_display_cell();
 static void create_wifi_open_wifi_config_cell();
 
+static void wifi_enable_button_clicked();
+
 static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 static int32_t row_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 
+LV_IMAGE_DECLARE(wifi_turned_off);
 LV_IMAGE_DECLARE(wifi_fill_strength);
+
+static s_common_ui_callback_user_data_t wifi_enable_button_data = {
+    .callback = wifi_enable_button_clicked,
+    .name = "Enable Wifi",
+    .messages.switch_state = false,
+};
 
 void tile_ui_create_wifi_tile()
 {
@@ -67,7 +76,7 @@ static void create_wifi_icon_cell()
 
     object_wifi_icon = lv_image_create(object_wifi_tile);
     LV_ASSERT(object_wifi_icon);
-    lv_image_set_src(object_wifi_icon, &wifi_fill_strength);
+    lv_image_set_src(object_wifi_icon, &wifi_turned_off);
     lv_obj_set_style_image_recolor(object_wifi_icon, lv_color_hex(0x00AADD), LV_STATE_DEFAULT);
     lv_obj_set_grid_cell(object_wifi_icon, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 0, 2);
 
@@ -76,7 +85,7 @@ static void create_wifi_icon_cell()
     lv_style_init(style_wifi_icon);
     lv_style_set_border_width(style_wifi_icon, 1);
     lv_style_set_radius(style_wifi_icon, 8);
-    lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0, 0, 0));
+    lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0xC8, 0xC8, 0xC8));
 
     lv_obj_add_style(object_wifi_icon, style_wifi_icon, LV_PART_MAIN);
 }
@@ -109,6 +118,7 @@ static void create_wifi_enable_button_cell()
     object_wifi_enable_button = lv_switch_create(object_wifi_tile);
     LV_ASSERT(object_wifi_enable_button);
     lv_obj_set_grid_cell(object_wifi_enable_button, LV_GRID_ALIGN_STRETCH, 3, 1, LV_GRID_ALIGN_STRETCH, 0, 1);
+    lv_obj_add_event_cb(object_wifi_enable_button, event_handler_switch_events, LV_EVENT_VALUE_CHANGED, &wifi_enable_button_data);
 
     MALLOC_STYLE(style_wifi_enable_button);
     LV_ASSERT(style_wifi_enable_button);
@@ -161,4 +171,20 @@ static void create_wifi_open_wifi_config_cell()
 
     lv_label_set_text(button_label, "Open Setting");
     lv_obj_center(button_label);
+}
+
+static void wifi_enable_button_clicked()
+{
+    if (wifi_enable_button_data.messages.switch_state)
+    {
+        main_ui_set_message("WiFi turned on");
+        lv_image_set_src(object_wifi_icon, &wifi_fill_strength);
+        lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0, 0, 0));
+    }
+    else
+    {
+        main_ui_set_message("WiFi turned off");
+        lv_image_set_src(object_wifi_icon, &wifi_turned_off);
+        lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0xC8, 0xC8, 0xC8));
+    }
 }

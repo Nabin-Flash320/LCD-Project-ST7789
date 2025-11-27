@@ -60,7 +60,7 @@ static void wifi_scan_result_handler(uint16_t scan_number, wifi_ap_record_t *rec
         ESP_LOGE(TAG, "SSID: %s(rssi: %d)(authmode: %d)", record[i].ssid, record[i].rssi, record[i].authmode);
 
         button = lv_list_add_button(object_wifi_scan_list, NULL, (const char *)record[i].ssid);
-        lv_obj_add_event_cb(button, event_handler_wifi_list_button_click, LV_EVENT_CLICKED, object_wifi_scan_list);
+        // lv_obj_add_event_cb(button, event_handler_wifi_list_button_click, LV_EVENT_CLICKED, object_wifi_scan_list);
     }
 
     lv_unlock();

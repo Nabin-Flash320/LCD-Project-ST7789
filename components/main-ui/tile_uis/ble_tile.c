@@ -30,6 +30,7 @@ static void create_bluetooth_open_bluetooth_config_cell();
 static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 static int32_t row_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 
+LV_IMAGE_DECLARE(bluetooth_off);
 LV_IMAGE_DECLARE(bluetooth_on);
 
 void tile_ui_create_bluetooth_tile()
@@ -67,7 +68,7 @@ static void create_bluetooth_icon_cell()
 
     object_bluetooth_icon = lv_image_create(object_bluetooth_tile);
     LV_ASSERT(object_bluetooth_icon);
-    lv_image_set_src(object_bluetooth_icon, &bluetooth_on);
+    lv_image_set_src(object_bluetooth_icon, &bluetooth_off);
     lv_obj_set_style_image_recolor(object_bluetooth_icon, lv_color_hex(0x00AADD), LV_STATE_DEFAULT);
     lv_obj_set_grid_cell(object_bluetooth_icon, LV_GRID_ALIGN_STRETCH, 0, 1, LV_GRID_ALIGN_STRETCH, 0, 2);
 

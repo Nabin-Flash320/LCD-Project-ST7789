@@ -19,8 +19,10 @@ typedef struct
 {
 
     func_common_ui_callback_t callback;
+    const char name[64];
     union
     {
+        bool switch_state;
         char list_button_selected[64];
         char keyboard_message[64];
     } messages;
@@ -35,8 +37,9 @@ lv_obj_t *main_ui_get_main_menu_object();
 
 // Functions for event handlers
 void event_handler_wifi_setting(lv_event_t *event);
-void event_handler_wifi_list_button_click(lv_event_t *event);
 void event_handler_keyboard_events(lv_event_t *event);
+void event_handler_switch_events(lv_event_t *event);
+
 void event_handler_bluetooth_setting(lv_event_t *event);
 
 // Functions for WiFi UI

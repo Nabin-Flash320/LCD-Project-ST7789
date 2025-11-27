@@ -4,6 +4,13 @@
 #include "main_ui.h"
 #include "driver_init.h"
 
+static void main_ui_message_deleter(lv_timer_t *task);
+static int main_ui_initialize_utility_bar(lv_obj_t *parent);
+static int main_ui_initialize_wifi_setting(lv_obj_t *parent);
+static int main_ui_initialize_bluetooth_setting(lv_obj_t *parent);
+static int main_ui_scrolling_label(lv_obj_t *parent);
+static void main_ui_main_menu_area(lv_obj_t *parent);
+
 DEFINE_OBJECT(main_screen);
 DEFINE_OBJECT(utility_bar);
 DEFINE_OBJECT(wifi_setting);
@@ -24,11 +31,10 @@ DEFINE_STYLE(scrolling_label);
 DEFINE_STYLE(main_display);
 DEFINE_STYLE(main_menu_display);
 
-static int main_ui_initialize_utility_bar(lv_obj_t *parent);
-static int main_ui_initialize_wifi_setting(lv_obj_t *parent);
-static int main_ui_initialize_bluetooth_setting(lv_obj_t *parent);
-static int main_ui_scrolling_label(lv_obj_t *parent);
-static void main_ui_main_menu_area(lv_obj_t *parent);
+lv_timer_t *message_deleter_taks = NULL;
+
+static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
+static int32_t row_dsc[] = {50, 50, 50, 50, 50, 50, LV_GRID_TEMPLATE_LAST};
 
 void main_ui_initialize()
 {
@@ -50,11 +56,21 @@ void main_ui_initialize()
     tile_ui_create_wifi_tile();
     tile_ui_create_bluetooth_tile();
     tile_ui_create_other_tile();
+
+    message_deleter_taks = lv_timer_create(main_ui_message_deleter, 5000, NULL);
 }
 
 void main_ui_set_message(const char *message)
 {
+    lv_timer_reset(message_deleter_taks);
     lv_label_set_text(object_scrolling_label, message);
+}
+
+static void main_ui_message_deleter(lv_timer_t *task)
+{
+    lv_lock();
+    lv_label_set_text(object_scrolling_label, "");
+    lv_unlock();
 }
 
 void main_ui_set_wifi_status(bool connected)
@@ -212,9 +228,6 @@ static int main_ui_scrolling_label(lv_obj_t *parent)
     lv_obj_add_style(object_scrolling_label, style_scrolling_label, LV_PART_MAIN);
     return 0;
 }
-
-static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
-static int32_t row_dsc[] = {50, 50, 50, 50, 50, 50, LV_GRID_TEMPLATE_LAST};
 
 static void main_ui_main_menu_area(lv_obj_t *parent)
 {
