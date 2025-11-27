@@ -171,6 +171,8 @@ static void create_wifi_open_wifi_config_cell()
 
     lv_label_set_text(button_label, "Open Setting");
     lv_obj_center(button_label);
+
+    lv_obj_set_state(object_wifi_open_button, LV_STATE_DISABLED, 1);
 }
 
 static void wifi_enable_button_clicked()
@@ -180,11 +182,13 @@ static void wifi_enable_button_clicked()
         main_ui_set_message("WiFi turned on");
         lv_image_set_src(object_wifi_icon, &wifi_fill_strength);
         lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0, 0, 0));
+        lv_obj_set_state(object_wifi_open_button, LV_STATE_DISABLED, 0);
     }
     else
     {
         main_ui_set_message("WiFi turned off");
         lv_image_set_src(object_wifi_icon, &wifi_turned_off);
         lv_style_set_border_color(style_wifi_icon, COLOR_MAKE(0xC8, 0xC8, 0xC8));
+        lv_obj_set_state(object_wifi_open_button, LV_STATE_DISABLED, 1);
     }
 }
